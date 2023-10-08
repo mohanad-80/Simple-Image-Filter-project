@@ -458,7 +458,7 @@ void cropImage()
 {
   int x, y, len, width, i, j;
 
-    cout << "Please enter x y lh w: ";
+    cout << "Please enter x y l w: ";
     cin >> x >> y >> len >> width;
 
     for (i = 0; i < SIZE; i++)
