@@ -25,11 +25,6 @@ unsigned char image[SIZE][SIZE];
 unsigned char filteredImage[SIZE][SIZE];
 // the image to use when using the merge filter
 unsigned char mergeImage[SIZE][SIZE];
-// the 4 quarters of the images for shuffle image
-unsigned char s1[128][128];
-unsigned char s2[128][128];
-unsigned char s3[128][128];
-unsigned char s4[128][128];
 
 void loadImage();
 void saveImage();
@@ -536,6 +531,11 @@ void mirrorImage()
 
 // Filter b
 void shuffleImage() {
+    // the 4 quarters of the images for shuffle image
+    unsigned char s1[128][128];
+    unsigned char s2[128][128];
+    unsigned char s3[128][128];
+    unsigned char s4[128][128];
     cout<<"New order of quarters ?\n";
         for(int i=0 ; i<128 ; i++){
             for(int j=0 ; j<128 ; j++){
