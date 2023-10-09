@@ -2,7 +2,7 @@
 // Program Name: CS213-2023-20220012-20220034-20220348-Part1.cpp
 // Last Modification Date:	xx/xx/xxxx
 // Member1 and ID  :Ahmed Ehab Shehata Ali  20220012
-// Member1's email :am8122004@gmail.comgit 
+// Member1's email :am8122004@gmail.com
 
 // Member2 and ID  :Ahmed Mohamed Amer Ahmed    20220034
 // Member2's email :ahmedamer42214953@gmail.com
