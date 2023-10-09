@@ -1,11 +1,11 @@
-// FCAI – OOP Programming – 2023 - Assignment 1 
+// FCAI – OOP Programming – 2023 - Assignment 1
 // Program Name:				main.cpp
 // Last Modification Date:	xx/xx/xxxx
 // Author1 and ID and Group:	Mohanad Abdullrahem Abdullrahman 20220348
 // Author2 and ID and Group:	Ahmed Ehab Shehata Ali 20220012
 // Author3 and ID and Group:	xxxxx xxxxx
 // Teaching Assistant:		xxxxx xxxxx
-// Purpose:..........	
+// Purpose:..........
 
 #include <iostream>
 #include <fstream>
@@ -259,62 +259,62 @@ void darkenAndLightenImage()
   }
 }
 
-void detectImageEdges() 
+void detectImageEdges()
 {
   int i, j;
 
   for (i = 0; i < SIZE; ++i)
   {
-      for (j = 0; j < SIZE; ++j)
+    for (j = 0; j < SIZE; ++j)
+    {
+      if (j > 0 && j < SIZE - 1)
       {
-          if (j > 0 && j < SIZE - 1)
-          {
-              // Check for possible casess to detect image edges
-              if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 0;
-                  filteredImage[i][j + 1] = 255;
-              }
-              else if (image[i][j - 1] < 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 0;
-                  filteredImage[i][j + 1] = 255;
-              }
-              else if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] < 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 0;
-                  filteredImage[i][j + 1] = 255;
-              }
-              else if (image[i][j - 1] >= 127 && image[i][j] >= 127 && image[i][j + 1] < 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 255;
-                  filteredImage[i][j + 1] = 0;
-              }
-              else
-                filteredImage[i][j] = 255;
-          }
-          if (i > 0 && i < SIZE)
-          {
-            if (image[i - 1][j] >= 127 && image[i][j] < 127)
-            {
-              filteredImage[i - 1][j] = 255;
-              filteredImage[i][j] = 0;
-            }
-            if (image[i][j] < 127 && image[i][j + 1] >= 127)
-            {
-              filteredImage[i][j] = 0;
-              filteredImage[i + 1][j] = 255;
-            }
-            else
-              filteredImage[i][j] = 255;
-          }
-          else
-              filteredImage[i][j] = 255;
+        // Check for possible casess to detect image edges
+        if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 0;
+          filteredImage[i][j + 1] = 255;
+        }
+        else if (image[i][j - 1] < 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 0;
+          filteredImage[i][j + 1] = 255;
+        }
+        else if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] < 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 0;
+          filteredImage[i][j + 1] = 255;
+        }
+        else if (image[i][j - 1] >= 127 && image[i][j] >= 127 && image[i][j + 1] < 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 255;
+          filteredImage[i][j + 1] = 0;
+        }
+        else
+          filteredImage[i][j] = 255;
       }
+      if (i > 0 && i < SIZE)
+      {
+        if (image[i - 1][j] >= 127 && image[i][j] < 127)
+        {
+          filteredImage[i - 1][j] = 255;
+          filteredImage[i][j] = 0;
+        }
+        if (image[i][j] < 127 && image[i][j + 1] >= 127)
+        {
+          filteredImage[i][j] = 0;
+          filteredImage[i + 1][j] = 255;
+        }
+        else
+          filteredImage[i][j] = 255;
+      }
+      else
+        filteredImage[i][j] = 255;
+    }
   }
 }
 void enlargeImage() {}
@@ -454,27 +454,27 @@ void blurImage()
   }
 }
 
-void cropImage() 
+void cropImage()
 {
   int x, y, len, width, i, j;
 
-    cout << "Please enter x y l w: ";
-    cin >> x >> y >> len >> width;
+  cout << "Please enter x y l w: ";
+  cin >> x >> y >> len >> width;
 
-    for (i = 0; i < SIZE; i++)
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+      // Make the filtered image white
+      filteredImage[i][j] = 255;
+  }
+  for (i = y; i < len + y; i++)
+  {
+    for (j = x; j < width + x; j++)
     {
-      for (j = 0; j < SIZE; j++)
-        // Make the filtered image white
-        filteredImage[i][j] = 255;
+      // Keep the required rectangle or square of the image
+      filteredImage[i][j] = image[i][j];
     }
-    for (i = y; i < len + y; i++) 
-    {
-        for (j = x; j < width + x; j++)
-        {
-          // Keep the required rectangle or square of the image
-          filteredImage[i][j] = image[i][j];
-        }
-    }
+  }
 }
 void skewImageRight() {}
 void skewImageUp() {}
