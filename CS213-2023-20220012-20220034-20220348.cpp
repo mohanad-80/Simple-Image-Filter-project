@@ -17,6 +17,7 @@
 #include <cstring>
 #include <string>
 #include <cmath>
+#include <math.h>
 #include "bmplib.cpp"
 using namespace std;
 
@@ -48,7 +49,8 @@ void cropImage();
 void skewImageRight();
 void skewImageUp();
 
-int main(){
+int main()
+{
   bool cont;
   cout << "Ahlan ya user ya habibi\n";
   loadImage();
@@ -58,7 +60,8 @@ int main(){
   } while (cont);
 }
 
-bool applyFilter(){
+bool applyFilter()
+{
   char filter = getTheFilterNameFromUser();
   switch (filter)
   {
@@ -84,7 +87,7 @@ bool applyFilter(){
   case '7':
     detectImageEdges();
     break;
-case '8':
+  case '8':
     enlargeImage();
     break;
   case '9':
@@ -101,6 +104,9 @@ case '8':
     break;
   case 'd':
     cropImage();
+    break;
+  case 'f':
+    skewImageUp();
     break;
   case 's':
     saveImage();
@@ -195,8 +201,10 @@ void blackAndWhiteFilter()
 // Filter 2
 void invertFilter()
 {
-  for (int i = 0; i < SIZE; i++){
-    for (int j = 0; j < SIZE; j++){
+  for (int i = 0; i < SIZE; i++)
+  {
+    for (int j = 0; j < SIZE; j++)
+    {
       // turning every pixel to the opposite level of brightness
       filteredImage[i][j] = 255 - image[i][j];
     }
@@ -254,58 +262,76 @@ void flipImage()
 }
 
 // Filter 5
-void rotateImage() {
-    cout<<"Rotate (90), (180) or (270) degrees?\n";
-    int degree; cin>>degree;
-    if(degree == 180){
-        for(int i=0 ; i<SIZE; i++){
-            for(int j=0 ; j<SIZE; j++){
-                // the image rotate 180 degrees
-                filteredImage[i][j]=image[255-i][255-j];
-            }
-        }
+void rotateImage()
+{
+  cout << "Rotate (90), (180) or (270) degrees?\n";
+  int degree;
+  cin >> degree;
+  if (degree == 180)
+  {
+    for (int i = 0; i < SIZE; i++)
+    {
+      for (int j = 0; j < SIZE; j++)
+      {
+        // the image rotate 180 degrees
+        filteredImage[i][j] = image[255 - i][255 - j];
+      }
     }
+  }
 
-    else if(degree == 270){
-        for(int i=0 ; i<SIZE; i++){
-            for(int j=0 ; j<SIZE; j++){
-                // the image rotate 270 degrees
-                filteredImage[i][j]=image[j][255-i];
-            }
-        }
+  else if (degree == 270)
+  {
+    for (int i = 0; i < SIZE; i++)
+    {
+      for (int j = 0; j < SIZE; j++)
+      {
+        // the image rotate 270 degrees
+        filteredImage[i][j] = image[j][255 - i];
+      }
     }
+  }
 
-    else if(degree == 90){
-        for(int i=0 ; i<SIZE; i++){
-            for(int j=0 ; j<SIZE; j++){
-                // the image rotate 90 degrees
-                filteredImage[i][j]=image[255-j][i];
-            }
-        }
+  else if (degree == 90)
+  {
+    for (int i = 0; i < SIZE; i++)
+    {
+      for (int j = 0; j < SIZE; j++)
+      {
+        // the image rotate 90 degrees
+        filteredImage[i][j] = image[255 - j][i];
+      }
     }
+  }
 }
 
 // Filter 6
-void darkenAndLightenImage(){
-    cout << "Do you want to (d)arken or (l)ighten? \n";
-    char c;
-    cin >> c;
-    if(c== 'l' || c=='L'){
-        for(int i=0 ; i<SIZE ; i++){
-            for(int j=0 ; j<SIZE ; j++){
-                // the image get lighter by 50%
-                filteredImage[i][j]=(image[i][j]+255)/2;
-            }
-        }
+void darkenAndLightenImage()
+{
+  cout << "Do you want to (d)arken or (l)ighten? \n";
+  char c;
+  cin >> c;
+  if (c == 'l' || c == 'L')
+  {
+    for (int i = 0; i < SIZE; i++)
+    {
+      for (int j = 0; j < SIZE; j++)
+      {
+        // the image get lighter by 50%
+        filteredImage[i][j] = (image[i][j] + 255) / 2;
+      }
     }
-    else if(c =='d' || c == 'D'){
-        for(int i=0 ; i<SIZE ; i++){
-            for(int j=0 ; j<SIZE ; j++){
-                // the image get darker by 50%
-                filteredImage[i][j]=(image[i][j])/2;
-            }
-        }
+  }
+  else if (c == 'd' || c == 'D')
+  {
+    for (int i = 0; i < SIZE; i++)
+    {
+      for (int j = 0; j < SIZE; j++)
+      {
+        // the image get darker by 50%
+        filteredImage[i][j] = (image[i][j]) / 2;
+      }
     }
+  }
 }
 
 // Filter 7
@@ -315,107 +341,133 @@ void detectImageEdges()
 
   for (i = 0; i < SIZE; ++i)
   {
-      for (j = 0; j < SIZE; ++j)
+    for (j = 0; j < SIZE; ++j)
+    {
+      if (j > 0 && j < SIZE - 1)
       {
-          if (j > 0 && j < SIZE - 1)
-          {
-              // Check for possible casess to detect image edges
-              if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 0;
-                  filteredImage[i][j + 1] = 255;
-              }
-              else if (image[i][j - 1] < 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 0;
-                  filteredImage[i][j + 1] = 255;
-              }
-              else if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] < 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 0;
-                  filteredImage[i][j + 1] = 255;
-              }
-              else if (image[i][j - 1] >= 127 && image[i][j] >= 127 && image[i][j + 1] < 127)
-              {
-                  filteredImage[i][j - 1] = 255;
-                  filteredImage[i][j] = 255;
-                  filteredImage[i][j + 1] = 0;
-              }
-              else
-                filteredImage[i][j] = 255;
-          }
-          if (i > 0 && i < SIZE)
-          {
-            if (image[i - 1][j] >= 127 && image[i][j] < 127)
-            {
-              filteredImage[i - 1][j] = 255;
-              filteredImage[i][j] = 0;
-            }
-            if (image[i][j] < 127 && image[i][j + 1] >= 127)
-            {
-              filteredImage[i][j] = 0;
-              filteredImage[i + 1][j] = 255;
-            }
-            else
-              filteredImage[i][j] = 255;
-          }
-          else
-              filteredImage[i][j] = 255;
+        // Check for possible casess to detect image edges
+        if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 0;
+          filteredImage[i][j + 1] = 255;
+        }
+        else if (image[i][j - 1] < 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 0;
+          filteredImage[i][j + 1] = 255;
+        }
+        else if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] < 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 0;
+          filteredImage[i][j + 1] = 255;
+        }
+        else if (image[i][j - 1] >= 127 && image[i][j] >= 127 && image[i][j + 1] < 127)
+        {
+          filteredImage[i][j - 1] = 255;
+          filteredImage[i][j] = 255;
+          filteredImage[i][j + 1] = 0;
+        }
+        else
+          filteredImage[i][j] = 255;
       }
+      if (i > 0 && i < SIZE)
+      {
+        if (image[i - 1][j] >= 127 && image[i][j] < 127)
+        {
+          filteredImage[i - 1][j] = 255;
+          filteredImage[i][j] = 0;
+        }
+        if (image[i][j] < 127 && image[i][j + 1] >= 127)
+        {
+          filteredImage[i][j] = 0;
+          filteredImage[i + 1][j] = 255;
+        }
+        else
+          filteredImage[i][j] = 255;
+      }
+      else
+        filteredImage[i][j] = 255;
+    }
   }
 }
 
 // Filter 8
-void enlargeImage() {
-    cout<<"Which quarter to enlarge 1, 2, 3, or 4?\n";
-    int quart ; cin>>quart;
-    int n=-2 , m=0;
-    if(quart ==1){
-        for(int i=0 ; i<SIZE/2 ; i++){
-            n+=2; m=0;
-            for(int j=0 ; j<SIZE/2 ; j++){
-                filteredImage[n][m]=image[i][j];       filteredImage[n][m+1]=image[i][j];
-                filteredImage[n+1][m]=image[i][j];  filteredImage[n+1][m+1]=image[i][j];
-                m+=2;
-            }
-        }
+void enlargeImage()
+{
+  cout << "Which quarter to enlarge 1, 2, 3, or 4?\n";
+  int quart;
+  cin >> quart;
+  int n = -2, m = 0;
+  if (quart == 1)
+  {
+    for (int i = 0; i < SIZE / 2; i++)
+    {
+      n += 2;
+      m = 0;
+      for (int j = 0; j < SIZE / 2; j++)
+      {
+        filteredImage[n][m] = image[i][j];
+        filteredImage[n][m + 1] = image[i][j];
+        filteredImage[n + 1][m] = image[i][j];
+        filteredImage[n + 1][m + 1] = image[i][j];
+        m += 2;
+      }
     }
+  }
 
-    else if(quart ==2){
-        for(int i=0 ; i<SIZE/2 ; i++){
-            n+=2; m=0;
-            for(int j=127 ; j<SIZE ; j++){
-                filteredImage[n][m]=image[i][j];       filteredImage[n][m+1]=image[i][j];
-                filteredImage[n+1][m]=image[i][j];  filteredImage[n+1][m+1]=image[i][j];
-                m+=2;
-            }
-        }
+  else if (quart == 2)
+  {
+    for (int i = 0; i < SIZE / 2; i++)
+    {
+      n += 2;
+      m = 0;
+      for (int j = 127; j < SIZE; j++)
+      {
+        filteredImage[n][m] = image[i][j];
+        filteredImage[n][m + 1] = image[i][j];
+        filteredImage[n + 1][m] = image[i][j];
+        filteredImage[n + 1][m + 1] = image[i][j];
+        m += 2;
+      }
     }
+  }
 
-    else if(quart ==3){
-        for(int i=127 ; i<SIZE ; i++){
-            n+=2; m=0;
-            for(int j=0 ; j<128 ; j++){
-                filteredImage[n][m]=image[i][j];      filteredImage[n][m+1]=image[i][j];
-                filteredImage[n+1][m]=image[i][j];  filteredImage[n+1][m+1]=image[i][j];
-                m+=2;
-            }
-        }
+  else if (quart == 3)
+  {
+    for (int i = 127; i < SIZE; i++)
+    {
+      n += 2;
+      m = 0;
+      for (int j = 0; j < 128; j++)
+      {
+        filteredImage[n][m] = image[i][j];
+        filteredImage[n][m + 1] = image[i][j];
+        filteredImage[n + 1][m] = image[i][j];
+        filteredImage[n + 1][m + 1] = image[i][j];
+        m += 2;
+      }
     }
+  }
 
-    else if(quart ==4){
-        for(int i=127 ; i<SIZE ; i++){
-            n+=2; m=0;
-            for(int j=127 ; j<SIZE ; j++){
-                filteredImage[n][m]=image[i][j];       filteredImage[n][m+1]=image[i][j];
-                filteredImage[n+1][m]=image[i][j];  filteredImage[n+1][m+1]=image[i][j];
-                m+=2;
-            }
-        }
+  else if (quart == 4)
+  {
+    for (int i = 127; i < SIZE; i++)
+    {
+      n += 2;
+      m = 0;
+      for (int j = 127; j < SIZE; j++)
+      {
+        filteredImage[n][m] = image[i][j];
+        filteredImage[n][m + 1] = image[i][j];
+        filteredImage[n + 1][m] = image[i][j];
+        filteredImage[n + 1][m + 1] = image[i][j];
+        m += 2;
+      }
     }
+  }
 }
 
 // Filter 9
@@ -531,95 +583,114 @@ void mirrorImage()
 }
 
 // Filter b
-void shuffleImage() {
-    // the 4 quarters of the images for shuffle image
-    unsigned char s1[128][128];
-    unsigned char s2[128][128];
-    unsigned char s3[128][128];
-    unsigned char s4[128][128];
-    cout<<"New order of quarters ?\n";
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                s1[i][j]=image[i][j];
-            }
-        }
+void shuffleImage()
+{
+  // the 4 quarters of the images for shuffle image
+  unsigned char s1[128][128];
+  unsigned char s2[128][128];
+  unsigned char s3[128][128];
+  unsigned char s4[128][128];
+  cout << "New order of quarters ?\n";
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      s1[i][j] = image[i][j];
+    }
+  }
 
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                s2[i][j]=image[i][j+128];
-            }
-        }
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      s2[i][j] = image[i][j + 128];
+    }
+  }
 
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                s3[i][j]=image[i+128][j];
-            }
-        }
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      s3[i][j] = image[i + 128][j];
+    }
+  }
 
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                s4[i][j]=image[i+128][j+128];
-            }
-        }
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      s4[i][j] = image[i + 128][j + 128];
+    }
+  }
 
-        int v, x, y, z;
-        cin>>v>>x>>y>>z;
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                if(v==1)
-                    filteredImage[i][j]=s1[i][j];
-                else if(v==2)
-                    filteredImage[i][j]=s2[i][j];
-                else if(v==3)
-                    filteredImage[i][j]=s3[i][j];
-                else if(v==4)
-                    filteredImage[i][j]=s4[i][j];
-            }
-        }
+  int v, x, y, z;
+  cin >> v >> x >> y >> z;
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      if (v == 1)
+        filteredImage[i][j] = s1[i][j];
+      else if (v == 2)
+        filteredImage[i][j] = s2[i][j];
+      else if (v == 3)
+        filteredImage[i][j] = s3[i][j];
+      else if (v == 4)
+        filteredImage[i][j] = s4[i][j];
+    }
+  }
 
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                if(x==1)
-                    filteredImage[i][j+128]=s1[i][j];
-                else if(x==2)
-                    filteredImage[i][j+128]=s2[i][j];
-                else if(x==3)
-                    filteredImage[i][j+128]=s3[i][j];
-                else if(x==4)
-                    filteredImage[i][j+128]=s4[i][j];
-            }
-        }
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      if (x == 1)
+        filteredImage[i][j + 128] = s1[i][j];
+      else if (x == 2)
+        filteredImage[i][j + 128] = s2[i][j];
+      else if (x == 3)
+        filteredImage[i][j + 128] = s3[i][j];
+      else if (x == 4)
+        filteredImage[i][j + 128] = s4[i][j];
+    }
+  }
 
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                if(y==1)
-                    filteredImage[i+128][j]=s1[i][j];
-                else if(y==2)
-                    filteredImage[i+128][j]=s2[i][j];
-                else if(y==3)
-                    filteredImage[i+128][j]=s3[i][j];
-                else if(y==4)
-                    filteredImage[i+128][j]=s4[i][j];
-            }
-        }
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      if (y == 1)
+        filteredImage[i + 128][j] = s1[i][j];
+      else if (y == 2)
+        filteredImage[i + 128][j] = s2[i][j];
+      else if (y == 3)
+        filteredImage[i + 128][j] = s3[i][j];
+      else if (y == 4)
+        filteredImage[i + 128][j] = s4[i][j];
+    }
+  }
 
-        for(int i=0 ; i<128 ; i++){
-            for(int j=0 ; j<128 ; j++){
-                if(z==1)
-                    filteredImage[i+128][j+128]=s1[i][j];
-                else if(z==2)
-                    filteredImage[i+128][j+128]=s2[i][j];
-                else if(z==3)
-                    filteredImage[i+128][j+128]=s3[i][j];
-                else if(z==4)
-                    filteredImage[i+128][j+128]=s4[i][j];
-            }
-        }
+  for (int i = 0; i < 128; i++)
+  {
+    for (int j = 0; j < 128; j++)
+    {
+      if (z == 1)
+        filteredImage[i + 128][j + 128] = s1[i][j];
+      else if (z == 2)
+        filteredImage[i + 128][j + 128] = s2[i][j];
+      else if (z == 3)
+        filteredImage[i + 128][j + 128] = s3[i][j];
+      else if (z == 4)
+        filteredImage[i + 128][j + 128] = s4[i][j];
+    }
+  }
 }
 
 // Filter c
 void blurImage()
 {
+  unsigned char tempImage[SIZE][SIZE];
+
   for (int i = 0; i < SIZE; i++)
   {
     for (int j = 0; j < SIZE; j++)
@@ -641,6 +712,50 @@ void blurImage()
       filteredImage[i][j] = sum / 9;
     }
   }
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    for (int j = 0; j < SIZE; j++)
+    {
+
+      int sum = 0;
+      for (int k = i - 1; k < i + 2; k++)
+      {
+        for (int l = j - 1; l < j + 2; l++)
+        {
+          if (k < 0 || l < 0 || k > 255 || l > 255)
+          {
+            continue;
+          }
+          sum += filteredImage[k][l];
+        }
+      }
+
+      tempImage[i][j] = sum / 9;
+    }
+  }
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    for (int j = 0; j < SIZE; j++)
+    {
+
+      int sum = 0;
+      for (int k = i - 1; k < i + 2; k++)
+      {
+        for (int l = j - 1; l < j + 2; l++)
+        {
+          if (k < 0 || l < 0 || k > 255 || l > 255)
+          {
+            continue;
+          }
+          sum += tempImage[k][l];
+        }
+      }
+
+      filteredImage[i][j] = sum / 9;
+    }
+  }
 }
 
 // Filter d
@@ -648,27 +763,73 @@ void cropImage()
 {
   int x, y, len, width, i, j;
 
-    cout << "Please enter x y l w: ";
-    cin >> x >> y >> len >> width;
+  cout << "Please enter x y l w: ";
+  cin >> x >> y >> len >> width;
 
-    for (i = 0; i < SIZE; i++)
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+      // Make the filtered image white
+      filteredImage[i][j] = 255;
+  }
+  for (i = y; i < len + y; i++)
+  {
+    for (j = x; j < width + x; j++)
     {
-      for (j = 0; j < SIZE; j++)
-        // Make the filtered image white
-        filteredImage[i][j] = 255;
+      // Keep the required rectangle or square of the image
+      filteredImage[i][j] = image[i][j];
     }
-    for (i = y; i < len + y; i++)
-    {
-        for (j = x; j < width + x; j++)
-        {
-          // Keep the required rectangle or square of the image
-          filteredImage[i][j] = image[i][j];
-        }
-    }
+  }
 }
 
 // Filter e
 void skewImageRight() {}
 
 // Filter f
-void skewImageUp() {}
+void skewImageUp()
+{
+  int degree = 0;
+  cout << "Please enter degree to skew Up: ";
+  cin >> degree;
+  
+  // convert the degree to radius
+  double rad = (degree / 180.0) * (M_PI);
+
+  double l = SIZE * tan(rad);
+
+  // new hieght of the shrinked image
+  int newHieght = int(SIZE - l);
+
+  double step = l / SIZE;
+
+  // temp image to use when shrinking the image
+  unsigned char tempImage[SIZE][SIZE];
+
+  // make the filtered image white
+  for (int i = 0; i < SIZE; i++)
+  {
+    for (int j = 0; j < SIZE; j++)
+    {
+      filteredImage[i][j] = 255;
+    }
+  }
+
+  // shrink the image into the tempImage
+  for (int i = 0; i < newHieght; i++)
+  {
+    for (int j = 0; j < SIZE; j++)
+    {
+      tempImage[i][j] = image[int(i / (1 - tan(rad)))][j];
+    }
+  }
+
+  // skew the tempImage into the filteredImage
+  for (int j = 0; j < SIZE; j++)
+  {
+    for (int i = 0; i < newHieght; i++)
+    {
+      filteredImage[i + (int)l][j] = tempImage[i][j];
+    }
+    l -= step;
+  }
+}
