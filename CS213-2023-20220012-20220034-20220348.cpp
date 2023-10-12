@@ -106,6 +106,9 @@ bool applyFilter()
   case 'd':
     cropImage();
     break;
+  case 'e':
+    skewImageRight();
+    break;
   case 'f':
     skewImageUp();
     break;
