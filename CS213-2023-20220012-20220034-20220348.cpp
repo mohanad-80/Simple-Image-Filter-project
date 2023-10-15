@@ -343,57 +343,49 @@ void detectImageEdges()
 {
   int i, j;
 
-  for (i = 0; i < SIZE; ++i)
+  for (i = 0; i < SIZE; i++)
   {
-    for (j = 0; j < SIZE; ++j)
+    for (j = 0; j < SIZE; j++)
     {
-      if (j > 0 && j < SIZE - 1)
+      if (j > 0)
       {
-        // Check for possible casess to detect image edges
-        if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
+        if (image[i][j - 1] >= 127 && image[i][j] < 127)
         {
           filteredImage[i][j - 1] = 255;
           filteredImage[i][j] = 0;
-          filteredImage[i][j + 1] = 255;
         }
-        else if (image[i][j - 1] < 127 && image[i][j] < 127 && image[i][j + 1] >= 127)
+        else if (image[i][j - 1] < 127 && image[i][j] >= 127)
         {
-          filteredImage[i][j - 1] = 255;
-          filteredImage[i][j] = 0;
-          filteredImage[i][j + 1] = 255;
+          filteredImage[i][j - 1]  = 0;
+          filteredImage[i][j] = 255; 
         }
-        else if (image[i][j - 1] >= 127 && image[i][j] < 127 && image[i][j + 1] < 127)
-        {
-          filteredImage[i][j - 1] = 255;
-          filteredImage[i][j] = 0;
-          filteredImage[i][j + 1] = 255;
-        }
-        else if (image[i][j - 1] >= 127 && image[i][j] >= 127 && image[i][j + 1] < 127)
-        {
-          filteredImage[i][j - 1] = 255;
-          filteredImage[i][j] = 255;
-          filteredImage[i][j + 1] = 0;
-        }
-        else
-          filteredImage[i][j] = 255;
       }
-      if (i > 0 && i < SIZE)
+      if (i > 0)
       {
-        if (image[i - 1][j] >= 127 && image[i][j] < 127)
-        {
-          filteredImage[i - 1][j] = 255;
-          filteredImage[i][j] = 0;
-        }
-        if (image[i][j] < 127 && image[i][j + 1] >= 127)
-        {
-          filteredImage[i][j] = 0;
-          filteredImage[i + 1][j] = 255;
-        }
-        else
-          filteredImage[i][j] = 255;
+          if (image[i - 1][j] >= 127 && image[i][j] < 127)
+          {
+            filteredImage[i - 1][j] = 255;
+            filteredImage[i][j] = 0;         
+          }
+          else if (image[i - 1][j] < 127 && image[i][j] >= 127)
+          {
+            filteredImage[i - 1][j] = 0;
+            filteredImage[i][j] = 255;
+          }
       }
       else
         filteredImage[i][j] = 255;
+    }
+  }
+  for (i = 0; i < SIZE; i++)
+  {
+    for (j = 0; j < SIZE; j++)
+    {
+      if (filteredImage[i][j] == 0)
+        filteredImage[i][j] = 255;
+
+      else if (filteredImage[i][j] == 255 && (i > 0 || j > 0))
+        filteredImage[i][j] = 0;
     }
   }
 }
