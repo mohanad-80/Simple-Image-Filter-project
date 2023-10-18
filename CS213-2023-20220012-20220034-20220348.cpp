@@ -1,15 +1,18 @@
 // FCAI – OOP Programming – 2023 - Assignment 1
-// Program Name: CS213-2023-20220012-20220034-20220348-Part1.cpp
-// Last Modification Date:	12/10/2023
+// Program Name: CS213-2023-20220012-20220034-20220348.cpp
+// Last Modification Date:	13/9/2023
 
-// Member1 and ID  : Ahmed Ehab Shehata Ali  20220012
-// Member1's email : am8122004@gmail.com
+// Author1 : Ahmed Ehab Shehata Ali
+// Author1's ID : 20220012
+// Author1's email : am8122004@gmail.com
 
-// Member2 and ID  : Ahmed Mohamed Amer Ahmed    20220034
-// Member2's email : ahmedamer42214953@gmail.com
+// Author2 : Ahmed Mohamed Amer Ahmed
+// Author1's ID : 20220034
+// Author's email : ahmedamer42214953@gmail.com
 
-// Member3 and ID  : Mohanad Abdullrahem Abdullrahman    20220348
-// Member3's email : mhndahmd031@gmail.com
+// Author3 : Mohanad Abdullrahem Abdullrahman
+// Author1's ID : 20220348
+// Author3's email : mhndahmd031@gmail.com
 
 // Purpose:..........
 
@@ -342,6 +345,14 @@ void darkenAndLightenImage()
 void detectImageEdges()
 {
   int i, j;
+  //make the filteredimage black after each filter
+  for(int i=0 ; i<SIZE ; i++)
+    {
+    for(int j=0 ; j<SIZE ; j++)
+    {
+        filteredImage[i][j]=0;
+    }
+  }
 
   for (i = 0; i < SIZE; i++)
   {
@@ -357,7 +368,7 @@ void detectImageEdges()
         else if (image[i][j - 1] < 127 && image[i][j] >= 127)
         {
           filteredImage[i][j - 1]  = 0;
-          filteredImage[i][j] = 255; 
+          filteredImage[i][j] = 255;
         }
       }
       if (i > 0)
@@ -365,7 +376,7 @@ void detectImageEdges()
           if (image[i - 1][j] >= 127 && image[i][j] < 127)
           {
             filteredImage[i - 1][j] = 255;
-            filteredImage[i][j] = 0;         
+            filteredImage[i][j] = 0;
           }
           else if (image[i - 1][j] < 127 && image[i][j] >= 127)
           {
@@ -759,6 +770,7 @@ void cropImage()
 {
   int x, y, len, width, i, j;
 
+  // notice that x is the value of j from image[i][j] & y is the value of i
   cout << "Please enter x y l w: ";
   cin >> x >> y >> len >> width;
 
@@ -779,7 +791,38 @@ void cropImage()
 }
 
 // Filter e
-void skewImageRight() {}
+void skewImageRight() {
+    cout<<"Please enter degree to skew right : ";
+    int degree ;
+    cin>>degree;
+    // convert from degree to radian
+    double radian = (degree/180.0)*M_PI;
+    // the space that the image will skew
+    double mov = SIZE * tan(radian);
+    double step = mov/SIZE ;
+    // the new width of the image
+    int width = int(SIZE - mov);
+    // make the background white
+     for(int i=0 ; i<SIZE ; i++){
+        for(int j=0 ; j<SIZE ; j++){
+            filteredImage[i][j]=255;
+        }
+    }
+    // shrinking the image;
+    unsigned char cpyimage[SIZE][SIZE];
+    for(int i=0 ; i<SIZE ; i++){
+        for(int j=0 ; j<width ; j++){
+            cpyimage[i][j]=image[i][int(j/(1-tan(radian)))];
+        }
+    }
+    // the image with skew
+    for(int i=0 ; i<SIZE ; i++){
+        for(int j=0 ; j<width ; j++){
+            filteredImage[i][j+int(mov)] = cpyimage[i][j];
+        }
+        mov -=step;
+    }
+}
 
 // Filter f
 void skewImageUp()
